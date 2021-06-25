@@ -1,5 +1,5 @@
 import { AddUser, Authentication } from '@/domain/usecases'
-import { UserModel } from '../models/user'
+import { UserModel } from '@/domain/models'
 import faker from 'faker'
 
 export const mockAddUserParams = (): AddUser.Params => ({
