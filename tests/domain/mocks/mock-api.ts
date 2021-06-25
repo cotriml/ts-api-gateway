@@ -3,8 +3,8 @@ import { CallApi } from '@/domain/usecases'
 
 import faker from 'faker'
 
-export const mockApiModel = (): ApiModel => {
-  return {
+export const mockApiModels = (): ApiModel[] => {
+  return [{
     id: faker.random.uuid(),
     baseUrl: faker.internet.domainName(),
     hostName: faker.internet.url(),
@@ -17,7 +17,7 @@ export const mockApiModel = (): ApiModel => {
     isActive: true,
     createdAt: faker.date.recent(),
     updatedAt: faker.date.future()
-  }
+  }]
 }
 
 export const mockResourceModel = (): ResourceModel => {
