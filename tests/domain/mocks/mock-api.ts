@@ -5,6 +5,7 @@ export const mockApiModel = (): ApiModel => {
   return {
     id: faker.random.uuid(),
     baseUrl: faker.internet.domainName(),
+    hostName: faker.internet.url(),
     apiName: faker.random.word(),
     description: faker.internet.email(),
     resources: [

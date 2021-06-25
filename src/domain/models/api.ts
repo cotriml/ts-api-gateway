@@ -1,6 +1,7 @@
 export type ApiModel = {
   id: string
   baseUrl: string
+  hostName: string
   apiName: string
   description: string
   resources: ResourceModel[]
