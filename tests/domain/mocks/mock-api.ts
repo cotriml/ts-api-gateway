@@ -1,4 +1,6 @@
 import { ApiModel, ResourceModel } from '@/domain/models'
+import { CallApi } from '@/domain/usecases'
+
 import faker from 'faker'
 
 export const mockApiModel = (): ApiModel => {
@@ -24,3 +26,14 @@ export const mockResourceModel = (): ResourceModel => {
     endpoint: faker.internet.domainWord()
   }
 }
+
+export const mockCallApiParams = (): CallApi.Params => ({
+  hostName: faker.internet.url(),
+  baseUrl: faker.internet.domainName(),
+  resource: faker.internet.domainWord(),
+  method: faker.random.word(),
+  queryParams: '',
+  pathParams: '',
+  body: {},
+  headers: {}
+})
