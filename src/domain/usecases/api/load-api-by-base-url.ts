@@ -5,5 +5,5 @@ export interface LoadApiByBaseUrl {
 }
 
 export namespace LoadApiByBaseUrl {
-  export type Result = ApiModel
+  export type Result = ApiModel[]
 }
