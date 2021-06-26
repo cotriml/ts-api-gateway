@@ -5,12 +5,8 @@ export interface CallApi {
 export namespace CallApi {
   export type Result = any
   export type Params = {
-    hostName: string
-    baseUrl: string
-    resource: string
+    uri: string
     method: string
-    queryParams: string
-    pathParams: string
     body: object
     headers: object
   }
