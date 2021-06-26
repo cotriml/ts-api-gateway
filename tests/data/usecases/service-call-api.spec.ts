@@ -2,8 +2,6 @@ import { ServiceCallApi } from '@/data/usecases'
 import { CallApiServiceSpy } from '@/tests/data/mocks'
 import { mockCallApiParams, throwError } from '@/tests/domain/mocks'
 
-import faker from 'faker'
-
 type SutTypes = {
   sut: ServiceCallApi
   callApiServiceSpy: CallApiServiceSpy

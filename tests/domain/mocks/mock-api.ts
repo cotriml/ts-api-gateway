@@ -3,8 +3,8 @@ import { CallApi } from '@/domain/usecases'
 
 import faker from 'faker'
 
-export const mockApiModels = (): ApiModel[] => {
-  return [{
+export const mockApiModel = (): ApiModel => {
+  return {
     id: faker.random.uuid(),
     baseUrl: faker.internet.domainName(),
     hostName: faker.internet.url(),
@@ -17,7 +17,7 @@ export const mockApiModels = (): ApiModel[] => {
     isActive: true,
     createdAt: faker.date.recent(),
     updatedAt: faker.date.future()
-  }]
+  }
 }
 
 export const mockResourceModel = (): ResourceModel => {
@@ -28,12 +28,8 @@ export const mockResourceModel = (): ResourceModel => {
 }
 
 export const mockCallApiParams = (): CallApi.Params => ({
-  hostName: faker.internet.url(),
-  baseUrl: faker.internet.domainName(),
-  resource: faker.internet.domainWord(),
-  method: faker.random.word(),
-  queryParams: '',
-  pathParams: '',
+  uri: 'https://google.com',
+  method: 'GET',
   body: {},
   headers: {}
 })

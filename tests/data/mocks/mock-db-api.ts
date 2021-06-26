@@ -1,10 +1,10 @@
 import {
   LoadApiByBaseUrlRepository
 } from '@/data/protocols'
-import { mockApiModels } from '@/tests/domain/mocks'
+import { mockApiModel } from '@/tests/domain/mocks'
 
 export class LoadApiByBaseUrlRepositorySpy implements LoadApiByBaseUrlRepository {
-  result = mockApiModels()
+  result = mockApiModel()
   baseUrl: string
 
   async loadByBaseUrl (baseUrl: string): Promise<LoadApiByBaseUrlRepository.Result> {
