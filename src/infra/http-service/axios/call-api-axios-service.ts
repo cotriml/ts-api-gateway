@@ -8,7 +8,7 @@ export class CallApiAxiosService implements CallApiService {
   async call (params: CallApiService.Params): Promise<CallApiService.Result> {
     switch (params.method) {
       case 'GET':
-        return await axios.get(params.uri)
+        return await axios.get(params.uri, params.headers)
       case 'POST':
         return await axios.post(params.uri, params.body, params.headers)
       case 'PUT':
