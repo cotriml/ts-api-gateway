@@ -1,9 +1,10 @@
 import { HttpGetController } from '@/presentation/controllers'
-import { badRequest, ok, serverError } from '@/presentation/helpers'
+import { notFound, ok, serverError } from '@/presentation/helpers'
 import { mockCallApiParams, throwError } from '@/tests/domain/mocks'
 import { LoadApiByBaseUrlSpy, CallApiSpy } from '@/tests/presentation/mocks'
+import { NotFoundError } from '../errors'
+
 import faker from 'faker'
-import { InvalidParamError } from '../errors'
 
 const mockRequest = (): HttpGetController.Request => {
   return {
@@ -40,7 +41,7 @@ describe('HttpGetController', () => {
     const { sut, loadApiByBaseUrlSpy } = makeSut()
     loadApiByBaseUrlSpy.result = null
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toBe(badRequest(new InvalidParamError(loadApiByBaseUrlSpy.baseUrl)))
+    expect(httpResponse).toBe(notFound(new NotFoundError()))
   })
 
   test('Should return 500 if LoadApiByBaseUrlSpy throws', async () => {

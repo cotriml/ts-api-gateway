@@ -6,7 +6,7 @@ describe('ApiSampleRepository', () => {
   }
 
   describe('loadByBaseUrl()', () => {
-    test('Should return a list of Apis on success', async () => {
+    test('Should return a list a Api on success', async () => {
       const sut = makeSut()
       const sampleBaseUrl = '/fake/v2'
       const apiList = await sut.loadByBaseUrl(sampleBaseUrl)

@@ -47,7 +47,7 @@ describe('Users Routes', () => {
     test('Should return 201 on addUser with valid accessToken', async () => {
       const accessToken = await makeAccessToken()
       await request(app)
-        .post('/api/users')
+        .post('/users')
         .set('x-access-token', accessToken)
         .send({
           name: 'Lucas',
@@ -61,7 +61,7 @@ describe('Users Routes', () => {
 
     test('Should return 403 on addUser with no accessToken', async () => {
       await request(app)
-        .post('/api/users')
+        .post('/users')
         .send({
           name: 'Lucas',
           role: 'admin',
@@ -84,7 +84,7 @@ describe('Users Routes', () => {
       })
 
       await request(app)
-        .post('/api/users/signin')
+        .post('/users/signin')
         .send({
           email: 'lucascotrim3@hotmail.com',
           password: '123'
@@ -94,7 +94,7 @@ describe('Users Routes', () => {
 
     test('Should return 401 on Signin', async () => {
       await request(app)
-        .post('/api/users/signin')
+        .post('/users/signin')
         .send({
           email: 'lucascotrim3@hotmail.com',
           password: '123'
@@ -107,14 +107,14 @@ describe('Users Routes', () => {
     test('Should return 200 on LoadUsers success with valid accessToken', async () => {
       const accessToken = await makeAccessToken()
       await request(app)
-        .get('/api/users')
+        .get('/users')
         .set('x-access-token', accessToken)
         .expect(200)
     })
 
     test('Should return 403 on LoadUsers success with no accessToken', async () => {
       await request(app)
-        .get('/api/users')
+        .get('/users')
         .expect(403)
     })
   })
@@ -129,7 +129,7 @@ describe('Users Routes', () => {
         password: '123'
       })
       await request(app)
-        .delete(`/api/users/${user.ops[0]._id}`)
+        .delete(`/users/${user.ops[0]._id}`)
         .set('x-access-token', accessToken)
         .expect(204)
     })
@@ -142,7 +142,7 @@ describe('Users Routes', () => {
         password: '123'
       })
       await request(app)
-        .delete(`/api/users/${user.ops[0]._id}`)
+        .delete(`/users/${user.ops[0]._id}`)
         .expect(403)
     })
 
@@ -150,7 +150,7 @@ describe('Users Routes', () => {
       const accessToken = await makeAccessToken()
       const objectId = new ObjectID()
       await request(app)
-        .delete(`/api/users/${objectId.toHexString()}`)
+        .delete(`/users/${objectId.toHexString()}`)
         .set('x-access-token', accessToken)
         .expect(400)
     })
@@ -160,7 +160,7 @@ describe('Users Routes', () => {
       const { id } = decode(accessToken)
 
       await request(app)
-        .delete(`/api/users/${id}`)
+        .delete(`/users/${id}`)
         .set('x-access-token', accessToken)
         .expect(400)
     })
