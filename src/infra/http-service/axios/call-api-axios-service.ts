@@ -18,7 +18,7 @@ export class CallApiAxiosService implements CallApiService {
       case 'DELETE':
         return await axios.delete(params.uri)
       default:
-        break
+        return null
     }
   }
 }
