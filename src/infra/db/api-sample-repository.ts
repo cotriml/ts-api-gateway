@@ -5,7 +5,7 @@ import {
 export class ApiSampleRepository implements LoadApiByBaseUrlRepository {
   async loadByBaseUrl (baseUrl: string): Promise<LoadApiByBaseUrlRepository.Result> {
     const splittedBaseUrl = baseUrl.split('/')
-    let index: number = 0
+    let index: number = 1
     let baseUrlFilter = splittedBaseUrl[index]
     let response = sampleApi().filter(api => api.baseUrl.includes(baseUrlFilter))
 
@@ -27,7 +27,7 @@ export const sampleApi = (): LoadApiByBaseUrlRepository.Result[] => {
   return [{
     id: '115e3c74-5605-4e65-b56e-2b7572c8b3da',
     baseUrl: '/fake/v1',
-    hostName: 'http://localhost:3000',
+    hostName: 'https://google.com',
     apiName: 'Fake API',
     description: 'A fake API',
     resources: [
@@ -38,13 +38,26 @@ export const sampleApi = (): LoadApiByBaseUrlRepository.Result[] => {
     updatedAt: new Date()
   },
   {
-    id: '115e3c74-5605-4e65-b56e-2b7572c8b3db',
+    id: '115e3c74-5605-4e65-b56e-2b7572c8b3dc',
     baseUrl: '/fake/v2',
-    hostName: 'http://localhost:3001',
+    hostName: 'https://google.com',
     apiName: 'Fake API 2',
     description: 'A fake API 2',
     resources: [
       { method: 'GET', endpoint: '/customers' }
+    ],
+    isActive: true,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: '115e3c74-5605-4e65-b56e-2b7572c8b3db',
+    baseUrl: '/pokemon-api/v2',
+    hostName: 'https://pokeapi.co/api/v2',
+    apiName: 'Pokemon API',
+    description: 'A Pokemon API',
+    resources: [
+      { method: 'GET', endpoint: '/pokemon/{pokemonName}' }
     ],
     isActive: true,
     createdAt: new Date(),

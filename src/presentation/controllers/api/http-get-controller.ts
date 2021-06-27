@@ -1,7 +1,7 @@
 import { Controller, HttpResponse } from '@/presentation/protocols'
-import { badRequest, serverError, ok } from '@/presentation/helpers'
+import { serverError, ok, notFound } from '@/presentation/helpers'
 import { CallApi, LoadApiByBaseUrl } from '@/domain/usecases'
-import { InvalidParamError } from '@/presentation/errors'
+import { NotFoundError } from '@/presentation/errors'
 
 export class HttpGetController implements Controller {
   constructor (
@@ -15,11 +15,11 @@ export class HttpGetController implements Controller {
 
       const api = await this.loadApiByBaseUrl.loadByBaseUrl(fullPath)
       if (!api) {
-        return badRequest(new InvalidParamError(fullPath))
+        return notFound(new NotFoundError())
       }
 
       const httpApiParams = {
-        uri: `${api.hostName}${fullPath}`,
+        uri: `${api.hostName}${fullPath.replace(api.baseUrl,'')}`,
         method: 'GET',
         body: body,
         headers: headers
