@@ -27,9 +27,9 @@ export const mockResourceModel = (): ResourceModel => {
   }
 }
 
-export const mockCallApiParams = (): CallApi.Params => ({
-  uri: 'https://google.com',
-  method: 'GET',
+export const mockCallApiParams = (method: string = 'GET'): CallApi.Params => ({
+  uri: 'http://any-url.com',
+  method: method,
   body: {},
   headers: {}
 })
