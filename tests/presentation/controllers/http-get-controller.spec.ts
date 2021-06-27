@@ -1,8 +1,8 @@
 import { HttpGetController } from '@/presentation/controllers'
 import { notFound, ok, serverError } from '@/presentation/helpers'
-import { mockCallApiParams, throwError } from '@/tests/domain/mocks'
+import { throwError } from '@/tests/domain/mocks'
 import { LoadApiByBaseUrlSpy, CallApiSpy } from '@/tests/presentation/mocks'
-import { NotFoundError } from '../errors'
+import { NotFoundError } from '@/presentation/errors'
 
 import faker from 'faker'
 
@@ -33,15 +33,15 @@ describe('HttpGetController', () => {
   test('Should call LoadApiByBaseUrlSpy with correct params', async () => {
     const { sut, loadApiByBaseUrlSpy } = makeSut()
     const fakeBaseUrl = mockRequest()
-    await sut.handle(mockRequest())
-    expect(loadApiByBaseUrlSpy.baseUrl).toBe(fakeBaseUrl)
+    await sut.handle(fakeBaseUrl)
+    expect(loadApiByBaseUrlSpy.baseUrl).toBe(fakeBaseUrl.fullPath)
   })
 
   test('Should return 400 if LoadApiByBaseUrlSpy returns null', async () => {
     const { sut, loadApiByBaseUrlSpy } = makeSut()
     loadApiByBaseUrlSpy.result = null
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toBe(notFound(new NotFoundError()))
+    expect(httpResponse).toEqual(notFound(new NotFoundError()))
   })
 
   test('Should return 500 if LoadApiByBaseUrlSpy throws', async () => {
@@ -52,14 +52,21 @@ describe('HttpGetController', () => {
   })
 
   test('Should call CallApi with correct values', async () => {
-    const { sut, callApiSpy } = makeSut()
-    await sut.handle(mockRequest())
-    expect(callApiSpy.params).toEqual(mockCallApiParams())
+    const { sut, callApiSpy, loadApiByBaseUrlSpy } = makeSut()
+    const loadApiByBaseUrlResult = loadApiByBaseUrlSpy.result
+    const request = mockRequest()
+    const httpApiParams = {
+      uri: `${loadApiByBaseUrlResult.hostName}${request.fullPath.replace(loadApiByBaseUrlResult.baseUrl, '')}`,
+      method: 'GET'
+    }
+    await sut.handle(request)
+    expect(callApiSpy.params).toEqual(httpApiParams)
   })
 
-  test('Should reuturn 500 if CallApi throws', async () => {
-    const { sut, callApiSpy } = makeSut()
+  test('Should return 500 if CallApi throws', async () => {
+    const { sut, callApiSpy, loadApiByBaseUrlSpy } = makeSut()
     jest.spyOn(callApiSpy, 'call').mockImplementationOnce(throwError)
+    jest.spyOn(loadApiByBaseUrlSpy, 'loadByBaseUrl').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
