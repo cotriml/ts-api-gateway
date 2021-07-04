@@ -21,10 +21,20 @@ export const unauthorized = (): HttpResponse => ({
   body: new UnauthorizedError()
 })
 
-export const serverError = (error: Error): HttpResponse => ({
-  statusCode: 500,
-  body: new ServerError(error.stack)
-})
+export const serverError = (error: any): HttpResponse => {
+  let statusCode = 500
+  let body = new ServerError(error.stack)
+
+  if (error.isAxiosError) {
+    statusCode = error.response.status
+    body = error
+  }
+
+  return {
+    statusCode,
+    body
+  }
+}
 
 export const ok = (data: any): HttpResponse => ({
   statusCode: 200,
