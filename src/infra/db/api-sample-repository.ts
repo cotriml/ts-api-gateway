@@ -26,12 +26,19 @@ export class ApiSampleRepository implements LoadApiByBaseUrlRepository {
 export const sampleApi = (): LoadApiByBaseUrlRepository.Result[] => {
   return [{
     id: '115e3c74-5605-4e65-b56e-2b7572c8b3da',
-    baseUrl: '/fake/v1',
-    hostName: 'https://google.com',
-    apiName: 'Fake API',
-    description: 'A fake API',
+    baseUrl: '/fake-api/v1',
+    hostName: 'https://jsonplaceholder.typicode.com',
+    apiName: '{JSON} Placeholder',
+    description: 'Free fake API for testing and prototyping.',
     resources: [
-      { method: 'GET', endpoint: '/customers' }
+      { method: 'GET', endpoint: '/posts' },
+      { method: 'GET', endpoint: '/posts/{postId}' },
+      { method: 'GET', endpoint: '/posts/{postId}/comments' },
+      { method: 'GET', endpoint: '/comments?postId={postId}' },
+      { method: 'POST', endpoint: '/posts' },
+      { method: 'PUT', endpoint: '/posts/{postId}' },
+      { method: 'PATCH', endpoint: '/posts/{postId}' },
+      { method: 'DELETE', endpoint: '/posts/{postId}' }
     ],
     isActive: true,
     createdAt: new Date(),
@@ -62,5 +69,6 @@ export const sampleApi = (): LoadApiByBaseUrlRepository.Result[] => {
     isActive: true,
     createdAt: new Date(),
     updatedAt: new Date()
-  }]
+  }
+  ]
 }
