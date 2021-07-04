@@ -1,1 +1,5 @@
 export * from './http-get-controller'
+export * from './http-post-controller'
+export * from './http-put-controller'
+export * from './http-patch-controller'
+export * from './http-delete-controller'
