@@ -9,9 +9,9 @@ import {
 import { Router } from 'express'
 
 export default (router: Router): void => {
-  router.get('(/*)?', adaptRoute(makeHttpGetController()))
-  router.post('(/*)?', adaptRoute(makeHttpPostController()))
-  router.put('(/*)?', adaptRoute(makeHttpPutController()))
-  router.patch('(/*)?', adaptRoute(makeHttpPatchController()))
-  router.delete('(/*)?', adaptRoute(makeHttpDeleteController()))
+  router.get('(?!/test)(/*)?', adaptRoute(makeHttpGetController()))
+  router.post('(?!/test)(/*)?', adaptRoute(makeHttpPostController()))
+  router.put('(?!/test)(/*)?', adaptRoute(makeHttpPutController()))
+  router.patch('(?!/test)(/*)?', adaptRoute(makeHttpPatchController()))
+  router.delete('(?!/test)(/*)?', adaptRoute(makeHttpDeleteController()))
 }
