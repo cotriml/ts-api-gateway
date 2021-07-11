@@ -2,7 +2,7 @@
 
 > ## Success ✅
 
-1. Receive a DELETE request on /api/users route
+1. Receive a DELETE request on /users route
 2. Validate if the request was made by an authenticated user
 3. Validate required field **userId**
 4. Validate if **userId** equals **tokenUserId** (for not delete yourself)

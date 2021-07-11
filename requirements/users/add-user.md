@@ -2,7 +2,7 @@
 
 > ## Success ✅
 
-1. Receive a POST request on /api/users route
+1. Receive a POST request on /users route
 2. Validate if the request was made by an authenticated user
 3. Validate required fields **name** | **role** | **email** | **password** | **passwordConfirmation**
 4. Validate if **email** is valid

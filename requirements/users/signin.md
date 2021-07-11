@@ -2,7 +2,7 @@
 
 > ## Success ✅
 
-1. Receive a POST request on /api/users/signin route
+1. Receive a POST request on /users/signin route
 2. Validate required fields **email** | **password**
 3. Validate if **email** is valid
 4. Find user on database with **email** and **password** given

@@ -2,7 +2,7 @@
 
 > ## Success ✅
 
-1. Receive a GET request on /api/users route
+1. Receive a GET request on /users route
 2. Validate if the request was made by an authenticated user
 3. If there is pageSize as query param, validate if it is less than 100
 4. Returns 200 with a list of users
