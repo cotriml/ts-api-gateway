@@ -1,2 +1,2 @@
 export * from './mongodb'
-export * from './api-sample-repository'
+export * from './service-sample-repository'

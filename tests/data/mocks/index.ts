@@ -1,5 +1,5 @@
 export * from './mock-criptography'
 export * from './mock-db-log'
 export * from './mock-db-user'
-export * from './mock-db-api'
-export * from './mock-service-api'
+export * from './mock-db-service'
+export * from './mock-http-service-caller'

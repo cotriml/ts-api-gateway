@@ -1,5 +1,5 @@
-import { CallApiAxiosService } from '@/infra/http-service'
-import { mockCallApiParams } from '@/tests/domain/mocks'
+import { CallServiceByAxios } from '@/infra/http-service'
+import { mockCallServiceParams } from '@/tests/domain/mocks'
 
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -11,70 +11,70 @@ describe('CallApiAxiosService', () => {
     await mockAxios.restore()
   })
 
-  const makeSut = (): CallApiAxiosService => {
-    return new CallApiAxiosService()
+  const makeSut = (): CallServiceByAxios => {
+    return new CallServiceByAxios()
   }
 
-  describe('call()', () => {
+  describe('callService()', () => {
     test('Should return a GET http response on success', async () => {
       const sut = makeSut()
-      const fakeParams = mockCallApiParams('GET')
+      const fakeParams = mockCallServiceParams('GET')
       mockAxios.onGet(fakeParams.uri).reply(200, {
         result: [{ any: 'any_result' }]
       })
-      const httpResponse = await sut.call(fakeParams)
+      const httpResponse = await sut.callService(fakeParams)
       expect(httpResponse).toBeTruthy()
       expect(httpResponse.data).toBeTruthy()
     })
 
     test('Should return a POST http response on success', async () => {
       const sut = makeSut()
-      const fakeParams = mockCallApiParams('POST')
+      const fakeParams = mockCallServiceParams('POST')
       mockAxios.onPost(fakeParams.uri).reply(200, {
         any: 'any_result'
       })
-      const httpResponse = await sut.call(fakeParams)
+      const httpResponse = await sut.callService(fakeParams)
       expect(httpResponse).toBeTruthy()
       expect(httpResponse.data).toBeTruthy()
     })
 
     test('Should return a PUT http response on success', async () => {
       const sut = makeSut()
-      const fakeParams = mockCallApiParams('PUT')
+      const fakeParams = mockCallServiceParams('PUT')
       mockAxios.onPut(fakeParams.uri).reply(200, {
         any: 'any_result'
       })
-      const httpResponse = await sut.call(fakeParams)
+      const httpResponse = await sut.callService(fakeParams)
       expect(httpResponse).toBeTruthy()
       expect(httpResponse.data).toBeTruthy()
     })
 
     test('Should return a PATCH http response on success', async () => {
       const sut = makeSut()
-      const fakeParams = mockCallApiParams('PATCH')
+      const fakeParams = mockCallServiceParams('PATCH')
       mockAxios.onPatch(fakeParams.uri).reply(200, {
         any: 'any_result'
       })
-      const httpResponse = await sut.call(fakeParams)
+      const httpResponse = await sut.callService(fakeParams)
       expect(httpResponse).toBeTruthy()
       expect(httpResponse.data).toBeTruthy()
     })
 
     test('Should return a DELETE http response on success', async () => {
       const sut = makeSut()
-      const fakeParams = mockCallApiParams('DELETE')
+      const fakeParams = mockCallServiceParams('DELETE')
       mockAxios.onDelete(fakeParams.uri).reply(200, {
         any: 'any_result'
       })
-      const httpResponse = await sut.call(fakeParams)
+      const httpResponse = await sut.callService(fakeParams)
       expect(httpResponse).toBeTruthy()
       expect(httpResponse.data).toBeTruthy()
     })
 
     test('Should return null on fail', async () => {
       const sut = makeSut()
-      const fakeParams = mockCallApiParams('ANY')
-      const httpResponse = await sut.call(fakeParams)
+      const fakeParams = mockCallServiceParams('ANY')
+      const httpResponse = await sut.callService(fakeParams)
       expect(httpResponse).toBeNull()
     })
   })
