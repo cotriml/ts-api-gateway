@@ -1,5 +1,5 @@
 import { ServiceModel, ResourceModel } from '@/domain/models'
-import { AddService } from '@/domain/usecases'
+import { AddService, UpdateService } from '@/domain/usecases'
 
 import faker from 'faker'
 
@@ -7,9 +7,18 @@ export const mockAddServiceParams = (): AddService.Params => ({
   baseUrl: faker.internet.domainName(),
   hostName: faker.internet.url(),
   apiName: faker.random.word(),
-  description: faker.internet.email(),
+  description: faker.lorem.sentence(),
   resources: [
     mockResourceModel(),
+    mockResourceModel()
+  ],
+  isActive: true
+})
+
+export const mockUpdateServiceParams = (): UpdateService.Params => ({
+  apiName: faker.random.word(),
+  description: faker.lorem.sentence(),
+  resources: [
     mockResourceModel()
   ],
   isActive: true
@@ -21,7 +30,7 @@ export const mockServiceModel = (): ServiceModel => {
     baseUrl: faker.internet.domainName(),
     hostName: faker.internet.url(),
     apiName: faker.random.word(),
-    description: faker.internet.email(),
+    description: faker.lorem.sentence(),
     resources: [
       mockResourceModel(),
       mockResourceModel()
