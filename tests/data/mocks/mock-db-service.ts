@@ -27,7 +27,7 @@ export class UpdateServiceRepositorySpy implements UpdateServiceRepository {
 }
 
 export class CheckServiceByBaseUrlRepositorySpy implements CheckServiceByBaseUrlRepository {
-  result = true
+  result = false
   baseUrl: string
 
   async checkByBaseUrl (baseUrl: string): Promise<CheckServiceByBaseUrlRepository.Result> {
