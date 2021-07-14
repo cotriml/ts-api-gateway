@@ -33,7 +33,7 @@ describe('HttpCallService Usecase', () => {
 
   test('Should return something', async () => {
     const { sut, httpServiceCallerSpy } = makeSut()
-    const api = await sut.callService(mockCallServiceParams())
-    expect(api).toEqual(httpServiceCallerSpy.result)
+    const service = await sut.callService(mockCallServiceParams())
+    expect(service).toEqual(httpServiceCallerSpy.result)
   })
 })
