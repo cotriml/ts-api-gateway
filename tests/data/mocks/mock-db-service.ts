@@ -1,6 +1,7 @@
 import {
   LoadServiceByBaseUrlRepository,
-  AddServiceRepository
+  AddServiceRepository,
+  UpdateServiceRepository
 } from '@/data/protocols'
 import { mockServiceModel } from '@/tests/domain/mocks'
 
@@ -8,8 +9,18 @@ export class AddServiceRepositorySpy implements AddServiceRepository {
   result = mockServiceModel()
   addServiceParams: AddServiceRepository.Params
 
-  async add (data: AddServiceRepository.Params): Promise<AddServiceRepository.Result> {
-    this.addServiceParams = data
+  async add (params: AddServiceRepository.Params): Promise<AddServiceRepository.Result> {
+    this.addServiceParams = params
+    return this.result
+  }
+}
+
+export class UpdateServiceRepositorySpy implements UpdateServiceRepository {
+  result = true
+  updateServiceParams: UpdateServiceRepository.Params
+
+  async update (params: UpdateServiceRepository.Params): Promise<UpdateServiceRepository.Result> {
+    this.updateServiceParams = params
     return this.result
   }
 }
