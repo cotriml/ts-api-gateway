@@ -2,9 +2,12 @@ import {
   LoadServiceByBaseUrlRepository,
   AddServiceRepository,
   UpdateServiceRepository,
-  CheckServiceByBaseUrlRepository
+  CheckServiceByBaseUrlRepository,
+  LoadServicesRepository,
+  DeleteServiceRepository
 } from '@/data/protocols'
-import { mockServiceModel } from '@/tests/domain/mocks'
+import { PaginationModel } from '@/domain/models'
+import { mockServiceModel, mockServicesModels } from '@/tests/domain/mocks'
 
 export class AddServiceRepositorySpy implements AddServiceRepository {
   result = mockServiceModel()
@@ -42,6 +45,31 @@ export class LoadServiceByBaseUrlRepositorySpy implements LoadServiceByBaseUrlRe
 
   async loadByBaseUrl (baseUrl: string): Promise<LoadServiceByBaseUrlRepository.Result> {
     this.baseUrl = baseUrl
+    return this.result
+  }
+}
+
+export class LoadServicesRepositorySpy implements LoadServicesRepository {
+  result = { data: mockServicesModels() }
+  count: number = 0
+  filter: LoadServicesRepository.Filter
+  pagination: PaginationModel
+
+  async loadAll (filter?: LoadServicesRepository.Filter, pagination?: PaginationModel): Promise<LoadServicesRepository.Result> {
+    this.count++
+    this.filter = filter
+    this.pagination = pagination
+
+    return this.result
+  }
+}
+
+export class DeleteServiceRepositorySpy implements DeleteServiceRepository {
+  result = true
+  serviceId: string
+
+  async delete (serviceId: string): Promise<DeleteServiceRepository.Result> {
+    this.serviceId = serviceId
     return this.result
   }
 }
