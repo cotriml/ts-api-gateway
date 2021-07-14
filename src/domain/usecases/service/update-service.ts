@@ -1,5 +1,5 @@
 export interface UpdateService {
-  update: (params: UpdateService.Params) => Promise<void>
+  update: (params: UpdateService.Params) => Promise<UpdateService.Result>
 }
 
 export namespace UpdateService {
@@ -16,4 +16,6 @@ export namespace UpdateService {
     method: string
     endpoint: string
   }
+
+  export type Result = boolean
 }
