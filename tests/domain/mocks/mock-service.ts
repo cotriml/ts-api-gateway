@@ -38,3 +38,10 @@ export const mockResourceModel = (): ResourceModel => {
     endpoint: faker.internet.domainWord()
   }
 }
+
+export const mockServicesModels = (): ServiceModel[] => {
+  return [
+    mockServiceModel(),
+    mockServiceModel()
+  ]
+}
