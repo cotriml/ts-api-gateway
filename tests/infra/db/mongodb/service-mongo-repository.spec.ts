@@ -125,4 +125,28 @@ describe('ServiceMongoRepository', () => {
       expect(exists).toBe(false)
     })
   })
+
+  describe('loadByBaseUrl()', () => {
+    test('Should return an Service on success', async () => {
+      const sut = makeSut()
+      const addServiceParams = mockAddServiceParams()
+      addServiceParams.baseUrl = '/fake-api/v1'
+      await serviceCollection.insertOne(addServiceParams)
+      const service = await sut.loadByBaseUrl('/fake-api')
+      expect(service).toBeTruthy()
+      expect(service[0].id).toBeTruthy()
+      expect(service[0].apiName).toBe(addServiceParams.apiName)
+      expect(service[0].baseUrl).toBe(addServiceParams.baseUrl)
+      expect(service[0].description).toBe(addServiceParams.description)
+      expect(service[0].hostName).toBe(addServiceParams.hostName)
+      expect(service[0].isActive).toBe(addServiceParams.isActive)
+      expect(service[0].resources).toEqual(addServiceParams.resources)
+    })
+
+    test('Should return null if loadByBaseUrl fails', async () => {
+      const sut = makeSut()
+      const service = await sut.loadByBaseUrl(faker.internet.domainName())
+      expect(service).toEqual([])
+    })
+  })
 })
