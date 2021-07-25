@@ -4,6 +4,7 @@ import { mockAddServiceParams } from '@/tests/domain/mocks'
 
 import { Collection } from 'mongodb'
 import ObjectId from 'bson-objectid'
+import faker from 'faker'
 
 let serviceCollection: Collection
 
@@ -106,6 +107,22 @@ describe('ServiceMongoRepository', () => {
       const fakeObjectId = new ObjectId()
       const result = await sut.delete(fakeObjectId.id)
       expect(result).toBe(false)
+    })
+  })
+
+  describe('checkByBaseUrl()', () => {
+    test('Should return true if baseUrl is valid', async () => {
+      const sut = makeSut()
+      const addServiceParams = mockAddServiceParams()
+      await serviceCollection.insertOne(addServiceParams)
+      const exists = await sut.checkByBaseUrl(addServiceParams.baseUrl)
+      expect(exists).toBe(true)
+    })
+
+    test('Should return false if baseUrl is not valid', async () => {
+      const sut = makeSut()
+      const exists = await sut.checkByBaseUrl(faker.internet.domainName())
+      expect(exists).toBe(false)
     })
   })
 })
