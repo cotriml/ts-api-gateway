@@ -3,7 +3,8 @@ import {
   AddServiceRepository,
   LoadServicesRepository,
   DeleteServiceRepository,
-  CheckServiceByBaseUrlRepository
+  CheckServiceByBaseUrlRepository,
+  LoadServiceByBaseUrlRepository
 } from '@/data/protocols/db'
 import env from '@/main/config/env'
 import { PaginationModel } from '@/domain/models'
@@ -14,7 +15,7 @@ const servicesColletionName = 'services'
 const defaultPageSize = +env.defaultPageSizePagination
 const defaultCurrentPage = +env.defaultCurrentPagePagination
 
-export class ServiceMongoRepository implements AddServiceRepository, LoadServicesRepository, DeleteServiceRepository, CheckServiceByBaseUrlRepository {
+export class ServiceMongoRepository implements AddServiceRepository, LoadServicesRepository, DeleteServiceRepository, CheckServiceByBaseUrlRepository, LoadServiceByBaseUrlRepository {
   async add (params: AddServiceRepository.Params): Promise<AddServiceRepository.Result> {
     const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
     const result = await serviceCollection.insertOne(params)
@@ -89,5 +90,13 @@ export class ServiceMongoRepository implements AddServiceRepository, LoadService
       }
     })
     return result !== null
+  }
+
+  async loadByBaseUrl (baseUrl: string): Promise<LoadServiceByBaseUrlRepository.Result> {
+    const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
+    const result = await serviceCollection.find({
+      baseUrl: { $regex: `^${baseUrl}` }
+    }).toArray()
+    return result && MongoHelper.mapCollection(result)
   }
 }

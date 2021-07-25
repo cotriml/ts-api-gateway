@@ -5,5 +5,5 @@ export interface LoadServiceByBaseUrlRepository {
 }
 
 export namespace LoadServiceByBaseUrlRepository {
-  export type Result = LoadServiceByBaseUrl.Result
+  export type Result = LoadServiceByBaseUrl.Result[]
 }
