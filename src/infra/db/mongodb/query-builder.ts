@@ -28,6 +28,10 @@ export class QueryBuilder {
     return this.addStep('$addFields', data)
   }
 
+  match (data: object): QueryBuilder {
+    return this.addStep('$match', data)
+  }
+
   build (): object[] {
     return this.query
   }
