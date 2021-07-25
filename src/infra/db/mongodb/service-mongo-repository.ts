@@ -1,16 +1,19 @@
 import { MongoHelper, QueryBuilder } from '@/infra/db'
 import {
   AddServiceRepository,
-  LoadServicesRepository
+  LoadServicesRepository,
+  DeleteServiceRepository
 } from '@/data/protocols/db'
 import env from '@/main/config/env'
 import { PaginationModel } from '@/domain/models'
+
+import { ObjectId } from 'mongodb'
 
 const servicesColletionName = 'services'
 const defaultPageSize = +env.defaultPageSizePagination
 const defaultCurrentPage = +env.defaultCurrentPagePagination
 
-export class ServiceMongoRepository implements AddServiceRepository, LoadServicesRepository {
+export class ServiceMongoRepository implements AddServiceRepository, LoadServicesRepository, DeleteServiceRepository {
   async add (params: AddServiceRepository.Params): Promise<AddServiceRepository.Result> {
     const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
     const result = await serviceCollection.insertOne(params)
@@ -67,5 +70,11 @@ export class ServiceMongoRepository implements AddServiceRepository, LoadService
     }
     services[0].data = MongoHelper.mapCollection(services[0].data)
     return services[0]
+  }
+
+  async delete (serviceId: string): Promise<DeleteServiceRepository.Result> {
+    const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
+    const result = await serviceCollection.deleteOne({ _id: new ObjectId(serviceId) })
+    return result.deletedCount === 1
   }
 }
