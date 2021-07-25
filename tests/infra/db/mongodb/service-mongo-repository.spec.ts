@@ -1,7 +1,9 @@
 import env from '@/main/config/env'
 import { MongoHelper, ServiceMongoRepository } from '@/infra/db'
 import { mockAddServiceParams } from '@/tests/domain/mocks'
+
 import { Collection } from 'mongodb'
+import ObjectId from 'bson-objectid'
 
 let serviceCollection: Collection
 
@@ -87,6 +89,23 @@ describe('ServiceMongoRepository', () => {
       const sut = makeSut()
       const services = await sut.loadAll()
       expect(services.data).toEqual([])
+    })
+  })
+
+  describe('delete()', () => {
+    test('Should return true on deletion success', async () => {
+      const sut = makeSut()
+      const addServiceParams = mockAddServiceParams()
+      const serviceInserted = await serviceCollection.insertOne(addServiceParams)
+      const result = await sut.delete(serviceInserted.insertedId)
+      expect(result).toBe(true)
+    })
+
+    test('Should return false if Service not found', async () => {
+      const sut = makeSut()
+      const fakeObjectId = new ObjectId()
+      const result = await sut.delete(fakeObjectId.id)
+      expect(result).toBe(false)
     })
   })
 })
