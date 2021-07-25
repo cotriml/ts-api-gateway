@@ -2,7 +2,8 @@ import { MongoHelper, QueryBuilder } from '@/infra/db'
 import {
   AddServiceRepository,
   LoadServicesRepository,
-  DeleteServiceRepository
+  DeleteServiceRepository,
+  CheckServiceByBaseUrlRepository
 } from '@/data/protocols/db'
 import env from '@/main/config/env'
 import { PaginationModel } from '@/domain/models'
@@ -13,7 +14,7 @@ const servicesColletionName = 'services'
 const defaultPageSize = +env.defaultPageSizePagination
 const defaultCurrentPage = +env.defaultCurrentPagePagination
 
-export class ServiceMongoRepository implements AddServiceRepository, LoadServicesRepository, DeleteServiceRepository {
+export class ServiceMongoRepository implements AddServiceRepository, LoadServicesRepository, DeleteServiceRepository, CheckServiceByBaseUrlRepository {
   async add (params: AddServiceRepository.Params): Promise<AddServiceRepository.Result> {
     const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
     const result = await serviceCollection.insertOne(params)
@@ -76,5 +77,17 @@ export class ServiceMongoRepository implements AddServiceRepository, LoadService
     const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
     const result = await serviceCollection.deleteOne({ _id: new ObjectId(serviceId) })
     return result.deletedCount === 1
+  }
+
+  async checkByBaseUrl (baseUrl: string): Promise<CheckServiceByBaseUrlRepository.Result> {
+    const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
+    const result = await serviceCollection.findOne({
+      baseUrl
+    }, {
+      projection: {
+        _id: 1
+      }
+    })
+    return result !== null
   }
 }
