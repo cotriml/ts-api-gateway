@@ -1,36 +1,15 @@
 import {
   LoadServiceByBaseUrlRepository
 } from '@/data/protocols/db'
+import { ServiceModel } from '@/domain/models'
 
 export class ServiceSampleRepository implements LoadServiceByBaseUrlRepository {
   async loadByBaseUrl (baseUrl: string): Promise<LoadServiceByBaseUrlRepository.Result> {
-    const splittedBaseUrl = baseUrl.split('/')
-    let index: number = 1
-    let baseUrlFilter = splittedBaseUrl[index]
-    let response = sampleApi().filter(service => service.baseUrl.includes(baseUrlFilter))
-
-    while (response.length > 1 && index < splittedBaseUrl.length) {
-      index++
-      baseUrlFilter = `${baseUrlFilter}/${splittedBaseUrl[index]}`
-      response = response.filter(service => service.baseUrl.includes(baseUrlFilter))
-    }
-
-    if (response.length === 1) {
-      const service = response[0]
-      const serviceBaseUrlSplitted = service.baseUrl.split('/')
-      const baseUrlOriginal = splittedBaseUrl.slice(0, serviceBaseUrlSplitted.length).join('/')
-
-      if (service.baseUrl !== baseUrlOriginal) {
-        return null
-      }
-      return service
-    } else {
-      return null
-    }
+    return sampleApi().filter(service => service.baseUrl.includes(baseUrl))
   }
 }
 
-export const sampleApi = (): LoadServiceByBaseUrlRepository.Result[] => {
+export const sampleApi = (): ServiceModel[] => {
   return [{
     id: '115e3c74-5605-4e65-b56e-2b7572c8b3da',
     baseUrl: '/fake-api/v1',
