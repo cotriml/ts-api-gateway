@@ -1,6 +1,7 @@
 import { DbLoadServiceByBaseUrl } from '@/data/usecases'
+import { ServiceModel } from '@/domain/models'
 import { LoadServiceByBaseUrlRepositorySpy } from '@/tests/data/mocks'
-import { throwError } from '@/tests/domain/mocks'
+import { mockServiceModel, throwError } from '@/tests/domain/mocks'
 
 import faker from 'faker'
 
@@ -23,12 +24,12 @@ describe('DbLoadServiceByBaseUrl Usecase', () => {
     const { sut, loadServiceByBaseUrlRepositorySpy } = makeSut()
     const fakeBaseUrl = faker.internet.domainName()
     await sut.loadByBaseUrl(fakeBaseUrl)
-    expect(loadServiceByBaseUrlRepositorySpy.baseUrl).toBe(fakeBaseUrl)
+    expect(loadServiceByBaseUrlRepositorySpy.baseUrl).toBe(fakeBaseUrl.split('/')[1])
   })
 
   test('Should return null if LoadServiceByBaseUrlRepository returns null', async () => {
     const { sut, loadServiceByBaseUrlRepositorySpy } = makeSut()
-    loadServiceByBaseUrlRepositorySpy.result = null
+    loadServiceByBaseUrlRepositorySpy.result = []
     const service = await sut.loadByBaseUrl(faker.internet.domainName())
     expect(service).toBeNull()
   })
@@ -42,7 +43,11 @@ describe('DbLoadServiceByBaseUrl Usecase', () => {
 
   test('Should return an service on success', async () => {
     const { sut, loadServiceByBaseUrlRepositorySpy } = makeSut()
-    const service = await sut.loadByBaseUrl(faker.internet.domainName())
-    expect(service).toEqual(loadServiceByBaseUrlRepositorySpy.result)
+    const serviceModel = mockServiceModel()
+    jest.spyOn(loadServiceByBaseUrlRepositorySpy, 'loadByBaseUrl').mockImplementationOnce(async (): Promise<ServiceModel[]> => {
+      return [serviceModel]
+    })
+    const service = await sut.loadByBaseUrl(serviceModel.baseUrl)
+    expect(service).toEqual(serviceModel)
   })
 })

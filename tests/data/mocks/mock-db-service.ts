@@ -40,7 +40,7 @@ export class CheckServiceByBaseUrlRepositorySpy implements CheckServiceByBaseUrl
 }
 
 export class LoadServiceByBaseUrlRepositorySpy implements LoadServiceByBaseUrlRepository {
-  result = mockServiceModel()
+  result = [mockServiceModel()]
   baseUrl: string
 
   async loadByBaseUrl (baseUrl: string): Promise<LoadServiceByBaseUrlRepository.Result> {
