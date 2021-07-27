@@ -2,7 +2,8 @@ import {
   AddService,
   DeleteService,
   LoadServiceByBaseUrl,
-  LoadServices
+  LoadServices,
+  UpdateService
 } from '@/domain/usecases'
 import { mockServiceModel, mockServicesModels } from '@/tests/domain/mocks'
 
@@ -43,6 +44,16 @@ export class LoadServicesSpy implements LoadServices {
   async loadAll (filter?: LoadServices.Filter): Promise<LoadServices.Result> {
     this.count++
     this.filter = filter
+    return this.result
+  }
+}
+
+export class UpdateServiceSpy implements UpdateService {
+  result = true
+  updateServiceParams: UpdateService.Params
+
+  async update (params: UpdateService.Params): Promise<UpdateService.Result> {
+    this.updateServiceParams = params
     return this.result
   }
 }

@@ -1,5 +1,5 @@
 import { AddServiceController } from '@/presentation/controllers'
-import { InvalidParamError, MissingParamError, ServerError } from '@/presentation/errors'
+import { BaseUrlAlreadyExistsError, MissingParamError, ServerError } from '@/presentation/errors'
 import { serverError, badRequest, forbidden, created } from '@/presentation/helpers'
 import { ValidationSpy, AddServiceSpy } from '@/tests/presentation/mocks'
 import { mockAddServiceParams, throwError } from '@/tests/domain/mocks'
@@ -47,7 +47,7 @@ describe('AddService Controller', () => {
     const { sut, addServiceSpy } = makeSut()
     addServiceSpy.result = null
     const httpResponse = await sut.handle(mockAddServiceParams())
-    expect(httpResponse).toEqual(forbidden(new InvalidParamError(addServiceSpy.addServiceParams.baseUrl)))
+    expect(httpResponse).toEqual(forbidden(new BaseUrlAlreadyExistsError()))
   })
 
   test('should return 500 if AddService throws', async () => {
