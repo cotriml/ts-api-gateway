@@ -149,4 +149,20 @@ describe('ServiceMongoRepository', () => {
       expect(service).toEqual([])
     })
   })
+
+  describe('updateService()', () => {
+    test('Should update a service on success', async () => {
+      const sut = makeSut()
+      const res = await serviceCollection.insertOne(mockAddServiceParams())
+      const fakeService = res.ops[0]
+      const updateFields = {
+        id: fakeService._id,
+        apiName: fakeService.apiName
+      }
+      await sut.update(updateFields)
+      const service = await serviceCollection.findOne({ _id: fakeService._id })
+      expect(service).toBeTruthy()
+      expect(service.apiName).toBe(updateFields.apiName)
+    })
+  })
 })
