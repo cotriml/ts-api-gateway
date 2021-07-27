@@ -11,7 +11,7 @@ export namespace AddService {
     apiName: string
     description: string
     resources: Resource[]
-    isActive: true
+    isActive: boolean
   }
   export type Result = ServiceModel
 
