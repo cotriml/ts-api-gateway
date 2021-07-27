@@ -1,9 +1,10 @@
 import {
   AddService,
   DeleteService,
-  LoadServiceByBaseUrl
+  LoadServiceByBaseUrl,
+  LoadServices
 } from '@/domain/usecases'
-import { mockServiceModel } from '@/tests/domain/mocks'
+import { mockServiceModel, mockServicesModels } from '@/tests/domain/mocks'
 
 export class AddServiceSpy implements AddService {
   result = mockServiceModel()
@@ -30,6 +31,18 @@ export class DeleteServiceSpy implements DeleteService {
   serviceId: string
   async delete (serviceId: string): Promise<DeleteService.Result> {
     this.serviceId = serviceId
+    return this.result
+  }
+}
+
+export class LoadServicesSpy implements LoadServices {
+  result = { data: mockServicesModels() }
+  count: number = 0
+  filter: LoadServices.Filter
+
+  async loadAll (filter?: LoadServices.Filter): Promise<LoadServices.Result> {
+    this.count++
+    this.filter = filter
     return this.result
   }
 }
