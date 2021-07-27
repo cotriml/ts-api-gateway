@@ -1,7 +1,7 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 import { badRequest, forbidden, created, serverError } from '@/presentation/helpers'
 import { AddService } from '@/domain/usecases'
-import { InvalidParamError } from '@/presentation/errors'
+import { BaseUrlAlreadyExistsError } from '@/presentation/errors'
 import { ResourceModel } from '@/domain/models'
 
 export class AddServiceController implements Controller {
@@ -27,7 +27,7 @@ export class AddServiceController implements Controller {
       })
 
       if (!service) {
-        return forbidden(new InvalidParamError(baseUrl))
+        return forbidden(new BaseUrlAlreadyExistsError())
       }
       return created(service)
     } catch (error) {

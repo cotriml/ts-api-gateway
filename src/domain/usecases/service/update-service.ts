@@ -10,7 +10,7 @@ export namespace UpdateService {
     apiName?: string
     description?: string
     resources?: Resource[]
-    isActive?: true
+    isActive?: boolean
   }
 
   type Resource = {
