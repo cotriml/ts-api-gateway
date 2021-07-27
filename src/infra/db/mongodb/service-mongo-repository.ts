@@ -4,7 +4,8 @@ import {
   LoadServicesRepository,
   DeleteServiceRepository,
   CheckServiceByBaseUrlRepository,
-  LoadServiceByBaseUrlRepository
+  LoadServiceByBaseUrlRepository,
+  UpdateServiceRepository
 } from '@/data/protocols/db'
 import env from '@/main/config/env'
 import { PaginationModel } from '@/domain/models'
@@ -15,7 +16,13 @@ const servicesColletionName = 'services'
 const defaultPageSize = +env.defaultPageSizePagination
 const defaultCurrentPage = +env.defaultCurrentPagePagination
 
-export class ServiceMongoRepository implements AddServiceRepository, LoadServicesRepository, DeleteServiceRepository, CheckServiceByBaseUrlRepository, LoadServiceByBaseUrlRepository {
+export class ServiceMongoRepository implements
+  AddServiceRepository,
+  LoadServicesRepository,
+  DeleteServiceRepository,
+  CheckServiceByBaseUrlRepository,
+  LoadServiceByBaseUrlRepository,
+  UpdateServiceRepository {
   async add (params: AddServiceRepository.Params): Promise<AddServiceRepository.Result> {
     const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
     const result = await serviceCollection.insertOne(params)
@@ -98,5 +105,20 @@ export class ServiceMongoRepository implements AddServiceRepository, LoadService
       baseUrl: { $regex: `^${baseUrl}` }
     }).toArray()
     return result && MongoHelper.mapCollection(result)
+  }
+
+  async update (params: UpdateServiceRepository.Params): Promise<UpdateServiceRepository.Result> {
+    const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
+    const { id, ...updateItems } = params
+
+    const response = await serviceCollection.updateOne({
+      _id: new ObjectId(id)
+    }, {
+      $set: {
+        accessToken: updateItems
+      }
+    })
+
+    return response.upsertedCount === 1
   }
 }
