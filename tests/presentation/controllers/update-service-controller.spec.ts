@@ -27,7 +27,7 @@ describe('UpdateService Controller', () => {
     const request = mockUpdateServiceParams()
     await sut.handle(request)
     expect(updateServiceSpy.updateServiceParams).toEqual({
-      id: request.id,
+      serviceId: request.serviceId,
       apiName: request.apiName,
       description: request.description,
       resources: request.resources,

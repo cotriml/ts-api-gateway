@@ -16,7 +16,7 @@ export const mockAddServiceParams = (): AddService.Params => ({
 })
 
 export const mockUpdateServiceParams = (): UpdateService.Params => ({
-  id: faker.random.uuid(),
+  serviceId: faker.random.uuid(),
   apiName: faker.random.word(),
   description: faker.lorem.sentence(),
   resources: [

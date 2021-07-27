@@ -109,10 +109,10 @@ export class ServiceMongoRepository implements
 
   async update (params: UpdateServiceRepository.Params): Promise<UpdateServiceRepository.Result> {
     const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
-    const { id, ...updateItems } = params
+    const { serviceId, ...updateItems } = params
 
     const response = await serviceCollection.updateOne({
-      _id: new ObjectId(id)
+      _id: new ObjectId(serviceId)
     }, {
       $set: {
         accessToken: updateItems

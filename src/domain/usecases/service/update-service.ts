@@ -4,7 +4,7 @@ export interface UpdateService {
 
 export namespace UpdateService {
   export type Params = {
-    id: string
+    serviceId: string
     baseUrl?: string
     hostName?: string
     apiName?: string

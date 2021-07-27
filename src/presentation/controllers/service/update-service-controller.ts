@@ -16,9 +16,9 @@ export class UpdateServiceController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { id, ...rest } = request
+      const { serviceId, ...rest } = request
 
-      const service = await this.updateService.update(Object.assign({}, rest, { id }))
+      const service = await this.updateService.update(Object.assign({}, rest, { serviceId }))
 
       if (service === null) {
         return forbidden(new BaseUrlAlreadyExistsError())
@@ -34,7 +34,7 @@ export class UpdateServiceController implements Controller {
 
 export namespace UpdateServiceController {
   export type Request = {
-    id: string
+    serviceId: string
     baseUrl?: string
     hostName?: string
     apiName?: string

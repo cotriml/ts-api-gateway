@@ -156,7 +156,7 @@ describe('ServiceMongoRepository', () => {
       const res = await serviceCollection.insertOne(mockAddServiceParams())
       const fakeService = res.ops[0]
       const updateFields = {
-        id: fakeService._id,
+        serviceId: fakeService._id,
         apiName: fakeService.apiName
       }
       await sut.update(updateFields)
