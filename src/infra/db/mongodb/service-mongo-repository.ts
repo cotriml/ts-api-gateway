@@ -34,7 +34,9 @@ export class ServiceMongoRepository implements
     const { pageSize, currentPage } = pagination || {}
     const filterObj = {}
     for (const element in filter) {
-      filterObj[`${element}`] = filter[`${element}`]
+      if (filter[`${element}`]) {
+        filterObj[`${element}`] = filter[`${element}`]
+      }
     }
 
     const totalRecords = await serviceCollection.countDocuments(filterObj)
@@ -110,15 +112,18 @@ export class ServiceMongoRepository implements
   async update (params: UpdateServiceRepository.Params): Promise<UpdateServiceRepository.Result> {
     const serviceCollection = await MongoHelper.getCollection(servicesColletionName)
     const { serviceId, ...updateItems } = params
-
+    const items = {}
+    for (const element in updateItems) {
+      if (params[`${element}`] != null) {
+        items[`${element}`] = params[`${element}`]
+      }
+    }
     const response = await serviceCollection.updateOne({
       _id: new ObjectId(serviceId)
     }, {
-      $set: {
-        accessToken: updateItems
-      }
+      $set: items
     })
 
-    return response.upsertedCount === 1
+    return response.modifiedCount === 1
   }
 }

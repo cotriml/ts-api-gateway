@@ -17,13 +17,15 @@ export class AddServiceController implements Controller {
         return badRequest(error)
       }
       const { baseUrl, hostName, apiName, description, resources, isActive } = request
+      const createdAt = new Date().toJSON()
       const service = await this.addService.add({
         baseUrl,
         hostName,
         apiName,
         description,
         resources,
-        isActive
+        isActive,
+        createdAt
       })
 
       if (!service) {

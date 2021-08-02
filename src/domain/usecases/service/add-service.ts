@@ -12,6 +12,7 @@ export namespace AddService {
     description: string
     resources: Resource[]
     isActive: boolean
+    createdAt: string
   }
   export type Result = ServiceModel
 

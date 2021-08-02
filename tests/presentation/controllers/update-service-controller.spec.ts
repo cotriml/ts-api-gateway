@@ -1,8 +1,10 @@
 import { UpdateServiceController } from '@/presentation/controllers'
-import { BaseUrlAlreadyExistsError, InvalidParamError, ServerError } from '@/presentation/errors'
-import { serverError, forbidden, noContent } from '@/presentation/helpers'
+import { BaseUrlAlreadyExistsError, InvalidParamError, MissingParamError, ServerError } from '@/presentation/errors'
+import { serverError, forbidden, noContent, badRequest } from '@/presentation/helpers'
 import { ValidationSpy, UpdateServiceSpy } from '@/tests/presentation/mocks'
 import { mockUpdateServiceParams, throwError } from '@/tests/domain/mocks'
+
+import faker from 'faker'
 
 type SutTypes = {
   sut: UpdateServiceController
@@ -31,7 +33,8 @@ describe('UpdateService Controller', () => {
       apiName: request.apiName,
       description: request.description,
       resources: request.resources,
-      isActive: request.isActive
+      isActive: request.isActive,
+      updatedAt: request.updatedAt
     })
   })
 
@@ -60,5 +63,19 @@ describe('UpdateService Controller', () => {
     jest.spyOn(updateServiceSpy, 'update').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockUpdateServiceParams())
     expect(httpResponse).toEqual(serverError(new ServerError(null)))
+  })
+
+  test('should call Validation with correct values', async () => {
+    const { sut, validationSpy } = makeSut()
+    const request = mockUpdateServiceParams()
+    await sut.handle(request)
+    expect(validationSpy.input).toEqual(request)
+  })
+
+  test('should return 400 if Validation returns and error', async () => {
+    const { sut, validationSpy } = makeSut()
+    validationSpy.error = new MissingParamError(faker.random.word())
+    const httpResponse = await sut.handle(mockUpdateServiceParams())
+    expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
 })

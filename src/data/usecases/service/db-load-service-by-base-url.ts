@@ -9,7 +9,7 @@ export class DbLoadServiceByBaseUrl implements LoadServiceByBaseUrl {
   async loadByBaseUrl (baseUrl: string): Promise<LoadServiceByBaseUrl.Result> {
     const splittedBaseUrl = baseUrl.split('/')
     let index: number = 1
-    let baseUrlFilter = splittedBaseUrl[index]
+    let baseUrlFilter = '/' + splittedBaseUrl[index]
     let response = await this.loadServiceByBaseUrlRepository.loadByBaseUrl(baseUrlFilter)
 
     while (response.length > 1 && index < splittedBaseUrl.length) {

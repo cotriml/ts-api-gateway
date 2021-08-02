@@ -1,4 +1,4 @@
-import { adaptRoute } from '@/main/adapters'
+import { adaptHttpRoute } from '@/main/adapters'
 import {
   makeHttpDeleteController,
   makeHttpGetController,
@@ -9,9 +9,9 @@ import {
 import { Router } from 'express'
 
 export default (router: Router): void => {
-  router.get('(?!/test)(/*)?', adaptRoute(makeHttpGetController()))
-  router.post('(?!/test)(/*)?', adaptRoute(makeHttpPostController()))
-  router.put('(?!/test)(/*)?', adaptRoute(makeHttpPutController()))
-  router.patch('(?!/test)(/*)?', adaptRoute(makeHttpPatchController()))
-  router.delete('(?!/test)(/*)?', adaptRoute(makeHttpDeleteController()))
+  router.get('(?!/test)(/*)?', adaptHttpRoute(makeHttpGetController()))
+  router.post('(?!/test)(/*)?', adaptHttpRoute(makeHttpPostController()))
+  router.put('(?!/test)(/*)?', adaptHttpRoute(makeHttpPutController()))
+  router.patch('(?!/test)(/*)?', adaptHttpRoute(makeHttpPatchController()))
+  router.delete('(?!/test)(/*)?', adaptHttpRoute(makeHttpDeleteController()))
 }

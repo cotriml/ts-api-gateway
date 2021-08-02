@@ -11,6 +11,7 @@ export namespace UpdateService {
     description?: string
     resources?: Resource[]
     isActive?: boolean
+    updatedAt: string
   }
 
   type Resource = {

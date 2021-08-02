@@ -1,7 +1,7 @@
 import { DeleteServiceController } from '@/presentation/controllers'
 import { badRequest, noContent, serverError } from '@/presentation/helpers'
-import { InvalidParamError } from '@/presentation/errors'
-import { DeleteServiceSpy } from '@/tests/presentation/mocks'
+import { InvalidParamError, MissingParamError } from '@/presentation/errors'
+import { DeleteServiceSpy, ValidationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import faker from 'faker'
 
@@ -12,14 +12,17 @@ const mockRequest = (): DeleteServiceController.Request => ({
 type SutTypes = {
   sut: DeleteServiceController
   deleteServiceSpy: DeleteServiceSpy
+  validationSpy: ValidationSpy
 }
 
 const makeSut = (): SutTypes => {
   const deleteServiceSpy = new DeleteServiceSpy()
-  const sut = new DeleteServiceController(deleteServiceSpy)
+  const validationSpy = new ValidationSpy()
+  const sut = new DeleteServiceController(deleteServiceSpy, validationSpy)
   return {
     sut,
-    deleteServiceSpy
+    deleteServiceSpy,
+    validationSpy
   }
 }
 
@@ -43,6 +46,20 @@ describe('DeleteServiceController', () => {
     deleteServiceSpy.result = false
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(new InvalidParamError('serviceId')))
+  })
+
+  test('should call Validation with correct values', async () => {
+    const { sut, validationSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(validationSpy.input).toEqual(request)
+  })
+
+  test('should return 400 if Validation returns and error', async () => {
+    const { sut, validationSpy } = makeSut()
+    validationSpy.error = new MissingParamError(faker.random.word())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
 
   test('Should return 200 on success', async () => {

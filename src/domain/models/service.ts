@@ -6,8 +6,8 @@ export type ServiceModel = {
   description: string
   resources: ResourceModel[]
   isActive: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }
 
 export type ResourceModel = {

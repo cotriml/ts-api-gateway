@@ -6,3 +6,6 @@ This a prototype of an API Gateway built to route requests to its microservices.
 > Developed by Lucas Cotrim Machado 
 >> E-mail: lucascotrim3@hotmail.com
 
+TODO:
+
+Test service routes on POSTMAN and debug Patch route

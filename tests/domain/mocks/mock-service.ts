@@ -12,7 +12,8 @@ export const mockAddServiceParams = (): AddService.Params => ({
     mockResourceModel(),
     mockResourceModel()
   ],
-  isActive: true
+  isActive: true,
+  createdAt: new Date().toJSON()
 })
 
 export const mockUpdateServiceParams = (): UpdateService.Params => ({
@@ -22,7 +23,8 @@ export const mockUpdateServiceParams = (): UpdateService.Params => ({
   resources: [
     mockResourceModel()
   ],
-  isActive: true
+  isActive: true,
+  updatedAt: new Date().toJSON()
 })
 
 export const mockServiceModel = (): ServiceModel => {
@@ -37,8 +39,8 @@ export const mockServiceModel = (): ServiceModel => {
       mockResourceModel()
     ],
     isActive: true,
-    createdAt: faker.date.recent(),
-    updatedAt: faker.date.future()
+    createdAt: faker.date.recent().toJSON(),
+    updatedAt: faker.date.future().toJSON()
   }
 }
 

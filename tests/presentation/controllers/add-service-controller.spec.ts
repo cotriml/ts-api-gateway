@@ -3,6 +3,8 @@ import { BaseUrlAlreadyExistsError, MissingParamError, ServerError } from '@/pre
 import { serverError, badRequest, forbidden, created } from '@/presentation/helpers'
 import { ValidationSpy, AddServiceSpy } from '@/tests/presentation/mocks'
 import { mockAddServiceParams, throwError } from '@/tests/domain/mocks'
+
+import MockDate from 'mockdate'
 import faker from 'faker'
 
 type SutTypes = {
@@ -23,18 +25,19 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddService Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('should call AddService with correct values', async () => {
     const { sut, addServiceSpy } = makeSut()
     const request = mockAddServiceParams()
     await sut.handle(request)
-    expect(addServiceSpy.addServiceParams).toEqual({
-      baseUrl: request.baseUrl,
-      hostName: request.hostName,
-      apiName: request.apiName,
-      description: request.description,
-      resources: request.resources,
-      isActive: request.isActive
-    })
+    expect(addServiceSpy.addServiceParams).toEqual(request)
   })
 
   test('should return 201 if AddService returns an service', async () => {

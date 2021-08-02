@@ -157,7 +157,8 @@ describe('ServiceMongoRepository', () => {
       const fakeService = res.ops[0]
       const updateFields = {
         serviceId: fakeService._id,
-        apiName: fakeService.apiName
+        apiName: fakeService.apiName,
+        updatedAt: new Date().toJSON()
       }
       await sut.update(updateFields)
       const service = await serviceCollection.findOne({ _id: fakeService._id })
