@@ -6,7 +6,7 @@ export const adaptHttpRoute = (controller: Controller) => {
     const request = {
       body: req.body,
       headers: req.headers,
-      fullPath: req.path,
+      fullPath: req.originalUrl,
       tokenUserId: req.tokenUserId
     }
     const httpResponse = await controller.handle(request)
