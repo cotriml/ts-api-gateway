@@ -4,6 +4,7 @@ import { serverError, forbidden, noContent, badRequest } from '@/presentation/he
 import { ValidationSpy, UpdateServiceSpy } from '@/tests/presentation/mocks'
 import { mockUpdateServiceParams, throwError } from '@/tests/domain/mocks'
 
+import MockDate from 'mockdate'
 import faker from 'faker'
 
 type SutTypes = {
@@ -24,6 +25,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('UpdateService Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('should call UpdateService with correct values', async () => {
     const { sut, updateServiceSpy } = makeSut()
     const request = mockUpdateServiceParams()
