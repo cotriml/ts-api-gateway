@@ -26,7 +26,7 @@ export const serverError = (error: any): HttpResponse => {
   let body = new ServerError(error.stack)
 
   if (error.isAxiosError) {
-    statusCode = error.response.status
+    statusCode = error.response?.status || statusCode
     body = error
   }
 
